@@ -74,7 +74,8 @@ public class LoginPO extends BaseAction {
     }
 
     public void checkInvalidCredentialsErrorMessageDisplayed() {
-        Assert.assertTrue(isElementDisplayed(driver, LoginPUI.INVALID_CREDENTIALS_ERROR_MESSAGE));
+        waitForElementVisible(driver, LoginPUI.LOGIN_POPUP_MESSAGE);
+        Assert.assertEquals(getElementText(driver, LoginPUI.LOGIN_POPUP_MESSAGE), "Invalid ID or Password.");
     }
 
 }

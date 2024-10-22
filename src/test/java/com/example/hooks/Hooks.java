@@ -2,59 +2,57 @@ package com.example.hooks;
 
 import commons.GlobalConstants;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
+import org.openqa.selenium.safari.SafariDriver;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class Hooks {
 
-    //private static WebDriver driver;
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     private static final Logger log = Logger.getLogger(Hooks.class.getName());
 
     @Before
     public static WebDriver openAndQuitBrowser() {
-        // Run by Maven command line
+
         String browser = System.getProperty("BROWSER");
         System.out.println("Browser name run by command line = " + browser);
 
-        // Check driver đã được khởi tạo hay chưa?
         if (driver.get() == null) {
-
-            // Happy path case
             try {
-                // Kiem tra BROWSER = null -> gan = chrome/ firefox (browser default for project)
                 if (browser == null) {
-                    // Get browser name from Environment Variable in OS
                     browser = System.getenv("BROWSER");
                     if (browser == null) {
-                        // Set default browser
-                        browser = "firefox";
+                        browser = "chrome";
                     }
                 }
                 switch (browser) {
                     case "chrome":
                         driver.set(new ChromeDriver());
                         break;
+                    case "safari":
+                        driver.set(new SafariDriver());
+                        break;
                     case "firefox":
                         driver.set(new FirefoxDriver());
-                        break;
-                    case "ie":
-                        driver.set(new EdgeDriver());
                         break;
                     default:
                         driver.set(new ChromeDriver());
                         break;
                 }
-                // Browser crash/ stop
+            } catch (UnreachableBrowserException e) {
+                driver.set(new ChromeDriver());
+            } catch (WebDriverException e) {
+                driver.set(new ChromeDriver());
             }
-            // Code này luôn luôn được chạy dù pass hay fail
             finally {
                 Runtime.getRuntime().addShutdownHook(new Thread(new BrowserCleanup()));
             }
@@ -65,7 +63,6 @@ public class Hooks {
         }
         return driver.get();
     }
-
 
     public static void close() {
         try {
