@@ -13,8 +13,7 @@ import static org.junit.platform.launcher.LauncherConstants.DRY_RUN_PROPERTY_NAM
 @SelectClasspathResource("features")  // Path to your feature files (adjust this if needed)
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.example.stepDefinitions")  // Package for step definitions
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = PARALLEL_EXECUTION_ENABLED_PROPERTY_NAME, value = "false")  // Enable parallel execution
-/*@ConfigurationParameter(key = PARALLEL_CONFIG_STRATEGY_PROPERTY_NAME, value = "scenarios")*/
+@ConfigurationParameter(key = PARALLEL_EXECUTION_ENABLED_PROPERTY_NAME, value = "true")  // Enable parallel execution
 @ConfigurationParameter(key = DRY_RUN_PROPERTY_NAME, value = "false")
 public class TestRunner {
 }

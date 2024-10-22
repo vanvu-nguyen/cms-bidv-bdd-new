@@ -1,12 +1,10 @@
 package com.example.stepDefinitions;
 
 import com.example.hooks.Hooks;
-import commons.BasePage;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import pageGenerator.AdminPageGeneratorManager;
 import pageObjects.adminSite.LoginPO;
 
